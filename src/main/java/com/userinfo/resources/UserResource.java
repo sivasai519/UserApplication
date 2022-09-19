@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,12 +35,22 @@ public class UserResource {
 	}
 
 	@GetMapping(path = "/findByUserId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> findById(@PathVariable int userId) {
+	public User findById(@PathVariable int userId) {
 		return userService.findByUserId(userId);
 	}
 
 	@GetMapping(path = "/findByObject", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<User> findUserWithSpecific(@RequestBody User user) {
 		return userService.findByMultipleValues(user);
+	}
+
+	@DeleteMapping(path = "/deleteByUserId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserResponse deleteUserWithId(@PathVariable int userId) {
+		return userService.userDeleteById(userId);
+	}
+
+	@PutMapping(path = "/updateUser", produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserResponse updateUser(@RequestBody User user) {
+		return userService.updateUser(user);
 	}
 }
